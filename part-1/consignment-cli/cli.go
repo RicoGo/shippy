@@ -6,14 +6,14 @@ import (
 	"log"
 	"os"
 
-	pb "github.com/ewanvalentine/shipper/consignment-service/proto/consignment"
-	"golang.org/x/net/context"
+	"context"
+	pb "github.com/RicoGo/try-go-micro/part-1/consignment-service/proto/consignment"
 	"google.golang.org/grpc"
 )
 
 const (
 	address         = "localhost:50051"
-	defaultFilename = "consignment.json"
+	defaultFileName = "consignment.json"
 )
 
 func parseFile(file string) (*pb.Consignment, error) {
@@ -36,11 +36,10 @@ func main() {
 	client := pb.NewShippingServiceClient(conn)
 
 	// Contact the server and print out its response.
-	file := defaultFilename
+	file := defaultFileName
 	if len(os.Args) > 1 {
 		file = os.Args[1]
 	}
-
 	consignment, err := parseFile(file)
 
 	if err != nil {

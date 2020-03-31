@@ -4,9 +4,9 @@ import (
 	"log"
 	"net"
 
+	"context"
 	// Import the generated protobuf code
-	pb "github.com/ewanvalentine/shipper/consignment-service/proto/consignment"
-	"golang.org/x/net/context"
+	pb "github.com/RicoGo/try-go-micro/part-1/consignment-service/proto/consignment"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 )
@@ -74,6 +74,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
+	log.Println("net.Listen", port)
 	s := grpc.NewServer()
 
 	// Register our service with the gRPC server, this will tie our
