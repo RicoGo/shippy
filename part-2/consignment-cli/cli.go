@@ -1,17 +1,18 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
+	pb "github.com/RicoGo/try-go-micro/part-2/consignment-service/proto/consignment"
+	//microClient "github.com/micro/go-micro/v2/client"
+	"github.com/micro/go-micro/v2"
+	"github.com/micro/go-micro/v2/config/cmd"
 	"io/ioutil"
 	"log"
 	"os"
-	"context"
-	pb "github.com/RicoGo/try-go-micro/part-1/consignment-service/proto/consignment"
-	"google.golang.org/grpc"
 )
 
 const (
-	address         = "localhost:50051"
 	defaultFileName = "consignment.json"
 )
 
@@ -29,30 +30,25 @@ func parseFile(file string) (*pb.Consignment, error) {
 }
 
 func main() {
-	// 连接到gRPC服务器
-	conn, err := grpc.Dial(address, grpc.WithInsecure())
-	if err != nil {
-		log.Fatalf("Did not connect: %v", err)
-	}
-	defer conn.Close()
+	cmd.Init()
+	server := micro.NewService()
+	server.Init()
 
-	// 初始化 gRPC 客户端
-	client := pb.NewShippingServiceClient(conn)
+	//client := pb.NewShippingService("go_micro_srv_consignment", microClient.DefaultClient)
+	client := pb.NewShippingService("go_micro_srv_consignment", server.Client())
 
 	file := defaultFileName
 	if len(os.Args) > 1 {
 		file = os.Args[1]
 	}
-
-	// 解析货物信息
 	consignment, err := parseFile(file)
 	if err != nil {
-		log.Fatalf("Could not parse file: %v", err)
+		log.Fatalf("Could not parse file: %v\n", err)
 	}
 
 	// context.Background() -> new(emptyCtx)
-	// 调用 RPC,将货物存储到我们自己的仓库里
-	resp, err := client.CreateConsignment(context.Background(), consignment)
+	//resp, err := client.CreateConsignment(context.Background(), consignment)
+	resp, err := client.CreateConsignment(context.TODO(), consignment)
 	if err != nil {
 		log.Fatalf("cli.main.CreateConsignment: %v", err)
 	}
