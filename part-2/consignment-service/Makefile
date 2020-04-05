@@ -1,5 +1,5 @@
 build:
-	protoc -I . --go_out=$(GOPATH)/src/github.com/RicoGo/try-go-micro/part-2/consignment-service/proto/consignment --micro_out=$(GOPATH)/src/github.com/RicoGo/try-go-micro/part-2/consignment-service/proto/consignment $(GOPATH)/src/github.com/RicoGo/try-go-micro/part-2/consignment-service/proto/consignment/consignment.proto
+	protoc --proto_path=.:$GOPATH/src/github.com/RicoGo/try-go-micro/part-2/consignment-service --go_out=. --micro_out=. proto/consignment/consignment.proto
 
 	docker build -t consignment-service .
 

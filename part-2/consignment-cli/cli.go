@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
-	pb "github.com/RicoGo/try-go-micro/part-2/consignment-service/proto/consignment"
+	pb "github.com/RicoGo/try-go-micro/part-2/consignment-cli/proto/consignment"
 	//microClient "github.com/micro/go-micro/v2/client"
 	"github.com/micro/go-micro/v2"
 	"github.com/micro/go-micro/v2/config/cmd"
